@@ -22,6 +22,5 @@ namespace AddressBookSysteam
             String emailid = Console.ReadLine();
             Console.WriteLine($"\n First Name  : {firstName} \n Last name : {lastName} \n Address : {address}\n Phone Number : {phoneNo} \n Email Id : {emailid}");
         }  
-            
     }
 }
