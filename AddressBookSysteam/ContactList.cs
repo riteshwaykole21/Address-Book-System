@@ -30,6 +30,74 @@ namespace AddressBookSysteam
             people.Add(person);
 
         }
+        public void Editperson()
+        {
+            findingPersonAgain:
+            Console.WriteLine("Enter the First name of person to be removed");
+            string verifyingFirstnName = Console.ReadLine();
+            Console.WriteLine("Enter The Last Name of Person to be removed");
+            string verifyingLastname = Console.ReadLine();
+            foreach (var person in people)
+            {
+                if (person.firstName.Equals(verifyingFirstnName) &&
+                    person.lastName.Equals(verifyingLastname))
+                {
+                moreEditing:
+                    Console.WriteLine("Please select any one as per below given option on the which you want the modification \n" +
+                        "1)First Name \n2)last name \n3)Address\n4)Phone Number\n5)Email_Id");
+                    int choice = Convert.ToInt32(Console.ReadLine());
+                    switch (choice)
+                    {
+                        case 1:
+                            Console.WriteLine("Please enter your First Name :");
+                            person.firstName = Console.ReadLine();
+                            break;
+                        case 2:
+                            Console.WriteLine("Please enter your last Name :");
+                            person.lastName = Console.ReadLine();
+                            break;
+                        case 3:
+                            Console.WriteLine("Please enter your Address :");
+                            person.address = Console.ReadLine();
+                            break;
+                        case 4:
+                            Console.WriteLine("Please enter your phone Number :");
+                            person.phoneNo = Convert.ToDouble(Console.ReadLine());
+                            break;
+                        case 5:
+                            Console.WriteLine("Please enter your emailid :");
+                            person.emailid = Console.ReadLine();
+                            break;
+                        default:
+                            Console.WriteLine("You are selected Invalid Option");
+                            Console.WriteLine("Do You Want To Try Again ");
+                            if (Console.ReadKey().Key == ConsoleKey.Y)
+                            {
+                                goto findingPersonAgain;
+                            }
+                            break;
+                    }
+                    Console.WriteLine("Do you want to any More Notification in the same Contact Y/N \n");
+                    if (Console.ReadKey().Key == ConsoleKey.Y)
+                    {
+                        goto moreEditing;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("That Person could not be Found.Do you Want to Try again");
+                    if (Console.ReadKey().Key == ConsoleKey.Y)
+                    {
+                        goto findingPersonAgain;
+                    }
+                    return;
+                }
+            }
+        }
         public void ListPeople()
         {
             if (people.Count == 0)
