@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AddressBookApp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,8 +12,8 @@ namespace AddressBookSysteam
         static void Main(string[] args)
         {
             ContactList contact = new ContactList();
-            contact.welcomeMeassage();
-            ReEnteringApp:
+            contact.WelcomeMessage();
+        ReEnteringApp:
             Console.WriteLine("Select Amy one From,below Option \n" +
                 "Press 1 :to create/Add a new contact \n"+
                 "Press 2 :to Edit/Modify any existing contct\n" +
@@ -25,7 +26,7 @@ namespace AddressBookSysteam
                     contact.AddPerson();
                     break;  
                 case 2:
-                    contact.Editperson();
+                    contact.EditPerson();
                     break;
                 case 3:
                     contact.ListPeople();

@@ -1,83 +1,97 @@
-﻿using System;
+﻿using AddressBookSysteam;
+using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AddressBookSysteam
+namespace AddressBookApp
 {
     public class ContactList
     {
-        Person person = new Person();
-        List<Person> people = new List<Person>();
-        public void welcomeMeassage()    //Welcome Meassage 
+        public void WelcomeMessage()    //Welcome Message
         {
-            Console.WriteLine("Welcome to Address Book Program \n");
+            Console.WriteLine("Welcome to Address Book Program!\n");
         }
-        public void AddPerson()   //Adding person 
+        Person personObj = new Person();
+        List<Person> listPersonObj = new List<Person>();
+        Dictionary<string, List<Person>> personMapping = new Dictionary<string, List<Person>>();
+        public void AddPerson()     //Adding Person .
         {
-            person = new Person();
-            Console.WriteLine("Enter Your First name ");  //enter the name
-            person.firstName = Console.ReadLine();
-            Console.WriteLine("Enter Your Last name");
-            person.lastName = Console.ReadLine();
-            Console.WriteLine("Enter  your Address ");
-            person.address = Console.ReadLine();
-            Console.WriteLine("Enter your phone Number ");
-            person.phoneNo = Convert.ToDouble(Console.ReadLine());
-            Console.WriteLine("Enter Youe Email Id ");
-            person.emailid = Console.ReadLine();
-            people.Add(person);
-
-        }
-        public void Editperson()
-        {
-        findingPersonAgain:
-            Console.WriteLine("Enter the First name of person to be removed");
-            string verifyingFirstnName = Console.ReadLine();
-            Console.WriteLine("Enter The Last Name of Person to be removed");
-            string verifyingLastname = Console.ReadLine();
-            foreach (var person in people)
+            personObj = new Person();
+            Console.WriteLine("Enter your First Name");
+        tryingWithDifferentName:
+            personObj.firstName = Console.ReadLine();
+            foreach (KeyValuePair<string, List<Person>> kvp in personMapping)        //UC6-Won't allow duplicate first name to be stored in AddressBook .
             {
-                if (person.firstName.Equals(verifyingFirstnName) &&
-                    person.lastName.Equals(verifyingLastname))
+                if (kvp.Key.Equals(personObj.firstName))
+                {
+                    Console.WriteLine("The Name which your are trying to save is already in use,So in order to avoid confusion you've to try with some different name.");
+                    Console.WriteLine("Please try again :");
+                    goto tryingWithDifferentName;
+                }
+            }
+            Console.WriteLine("Enter your Last Name");
+            personObj.lastName = Console.ReadLine();
+            Console.WriteLine("Enter your Address");
+            personObj.address = Console.ReadLine();
+            Console.WriteLine("Enter your Phone Number");
+            personObj.phoneNo = Convert.ToDouble(Console.ReadLine());
+            Console.WriteLine("Enter your email id");
+            personObj.emailid = Console.ReadLine();
+
+            listPersonObj.Add(personObj);
+            personMapping.Add(personObj.firstName, listPersonObj);
+        }
+        public void EditPerson()    //Editing Contact .
+        {
+        updateDetails:
+            Console.WriteLine("Enter the first name of personObj to be removed");
+            string verifyingFirstName = Console.ReadLine();
+            Console.WriteLine("Enter the last name of personObj to be removed");
+            string verifyingLastName = Console.ReadLine();
+            foreach (var person in listPersonObj)
+            {
+                if (person.firstName.Equals(verifyingFirstName) && person.lastName.Equals(verifyingLastName))   //Editing Contact if exists.
                 {
                 moreEditing:
-                    Console.WriteLine("Please select any one as per below given option on the which you want the modification \n" +
-                        "1)First Name \n2)last name \n3)Address\n4)Phone Number\n5)Email_Id");
+                    Console.WriteLine("Please select any one as per the below given options on which you want the modification \n" +
+                        "1)First Name\n2)Last Name\n3)Address\n4)Phone Number\n5)Email_Id");
                     int choice = Convert.ToInt32(Console.ReadLine());
                     switch (choice)
                     {
                         case 1:
-                            Console.WriteLine("Please enter your First Name :");
+                            Console.WriteLine("Please enter your first name : ");
                             person.firstName = Console.ReadLine();
                             break;
                         case 2:
-                            Console.WriteLine("Please enter your last Name :");
+                            Console.WriteLine("Please enter your last name : ");
                             person.lastName = Console.ReadLine();
                             break;
                         case 3:
-                            Console.WriteLine("Please enter your Address :");
+                            Console.WriteLine("Please enter your Address : ");
                             person.address = Console.ReadLine();
                             break;
                         case 4:
-                            Console.WriteLine("Please enter your phone Number :");
+                            Console.WriteLine("Please enter your Phone Number : ");
                             person.phoneNo = Convert.ToDouble(Console.ReadLine());
                             break;
                         case 5:
-                            Console.WriteLine("Please enter your emailid :");
+                            Console.WriteLine("Please enter your email Id: ");
                             person.emailid = Console.ReadLine();
                             break;
                         default:
-                            Console.WriteLine("You are selected Invalid Option");
-                            Console.WriteLine("Do You Want To Try Again ");
+                            Console.WriteLine("You've selected an Invalid Option!");
+                            Console.WriteLine("Do you want to try again ");
                             if (Console.ReadKey().Key == ConsoleKey.Y)
                             {
-                                goto findingPersonAgain;
+                                goto updateDetails;
                             }
                             break;
                     }
-                    Console.WriteLine("Do you want to any More Notification in the same Contact Y/N \n");
+                    Console.WriteLine("Do you want to do any more modification in the same contact Y/N \n");
                     if (Console.ReadKey().Key == ConsoleKey.Y)
                     {
                         goto moreEditing;
@@ -89,46 +103,46 @@ namespace AddressBookSysteam
                 }
                 else
                 {
-                    Console.WriteLine("That Person could not be Found.Do you Want to Try again");
+                    Console.WriteLine("That person name could not be found.Do you want to try again ");
                     if (Console.ReadKey().Key == ConsoleKey.Y)
                     {
-                        goto findingPersonAgain;
+                        goto updateDetails;
                     }
                     return;
                 }
             }
         }
-        public void ListPeople()
+        public void ListPeople()        //List of all Contacts/People's.
         {
-            if (people.Count == 0)
+            if (listPersonObj.Count == 0)
             {
                 Console.WriteLine("Your Address book is empty. Press any key to continue");
                 Console.ReadKey();
                 return;
             }
-            Console.WriteLine("Here are the current people found in your address book :");
-            foreach (var person in people)
+            Console.WriteLine("Here are the current listPersonObj found in your address book :");
+            foreach (var person in listPersonObj)
             {
-                Console.WriteLine($"\n first name :{person.firstName}\n Email ID :{person.emailid}");
+                Console.WriteLine($"\n First Name : {person.firstName}\n Last Name : {person.lastName}\n Address : {person.address}\n Phone Number : {person.phoneNo}\n Email ID : {person.emailid}");
             }
-            Console.WriteLine("Press any key to continue");
+            Console.WriteLine("Press any key to continue.");
             Console.ReadKey();
         }
-        public void RemovePerson()     //delete n exiting contact
+        public void RemovePerson()      //Delete an existing Contact 
         {
-            Console.WriteLine("Enter the first name of person to be removed");
-            string verifyingfirstname = Console.ReadLine();
-            Console.WriteLine("Enter the Last Name of Person to be removed");
-            string verifyinglastName = Console.ReadLine();
-            foreach (var person in people)
+            Console.WriteLine("Enter the first name of personObj to be removed");
+            string verifyingFirstName = Console.ReadLine();
+            Console.WriteLine("Enter the last name of personObj to be removed");
+            string verifyingLastName = Console.ReadLine();
+            foreach (var person in listPersonObj)
             {
-                if (person.firstName.Equals(verifyingfirstname) && person.lastName.Equals(verifyinglastName))
+                if (person.firstName.Equals(verifyingFirstName) && person.lastName.Equals(verifyingLastName))
                 {
-                    Console.WriteLine("Are you Sure You Want To remove this Person from Your address book ? (Y/N)");
+                    Console.WriteLine("Are you sure you want to remove this personObj from your address book ? (Y/N)");
                     if (Console.ReadKey().Key == ConsoleKey.Y)
                     {
-                        people.Remove(person);
-                        Console.WriteLine("person Removed Press any key To Continue.\n");
+                        listPersonObj.Remove(person);
+                        Console.WriteLine("Person removed .Press any key to continue.\n");
                         return;
                     }
                     else
@@ -138,13 +152,11 @@ namespace AddressBookSysteam
                 }
                 else
                 {
-                       Console.WriteLine("That Person could not be found.Pres any key to continue to try again");
-                       Console.ReadKey();
-                       return;
+                    Console.WriteLine("That personObj could not be found.Press any key to continue to try again ");
+                    Console.ReadKey();
+                    return;
                 }
             }
         }
     }
 }
-
-
