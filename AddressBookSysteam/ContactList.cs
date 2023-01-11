@@ -32,7 +32,7 @@ namespace AddressBookSysteam
         }
         public void Editperson()
         {
-            findingPersonAgain:
+        findingPersonAgain:
             Console.WriteLine("Enter the First name of person to be removed");
             string verifyingFirstnName = Console.ReadLine();
             Console.WriteLine("Enter The Last Name of Person to be removed");
@@ -114,5 +114,37 @@ namespace AddressBookSysteam
             Console.WriteLine("Press any key to continue");
             Console.ReadKey();
         }
+        public void RemovePerson()     //delete n exiting contact
+        {
+            Console.WriteLine("Enter the first name of person to be removed");
+            string verifyingfirstname = Console.ReadLine();
+            Console.WriteLine("Enter the Last Name of Person to be removed");
+            string verifyinglastName = Console.ReadLine();
+            foreach (var person in people)
+            {
+                if (person.firstName.Equals(verifyingfirstname) && person.lastName.Equals(verifyinglastName))
+                {
+                    Console.WriteLine("Are you Sure You Want To remove this Person from Your address book ? (Y/N)");
+                    if (Console.ReadKey().Key == ConsoleKey.Y)
+                    {
+                        people.Remove(person);
+                        Console.WriteLine("person Removed Press any key To Continue.\n");
+                        return;
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                       Console.WriteLine("That Person could not be found.Pres any key to continue to try again");
+                       Console.ReadKey();
+                       return;
+                }
+            }
+        }
     }
 }
+
+
