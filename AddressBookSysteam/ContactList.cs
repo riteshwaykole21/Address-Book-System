@@ -17,7 +17,7 @@ namespace AddressBookSysteam
         public void AddPerson()   //Adding person 
         {
             person = new Person();
-            Console.WriteLine("Enter Your First name ");
+            Console.WriteLine("Enter Your First name ");  //enter the name
             person.firstName = Console.ReadLine();
             Console.WriteLine("Enter Your Last name");
             person.lastName = Console.ReadLine();
